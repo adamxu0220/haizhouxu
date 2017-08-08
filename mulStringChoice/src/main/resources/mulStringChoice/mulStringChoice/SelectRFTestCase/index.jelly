@@ -6,7 +6,7 @@
 	<div name="parameter" description="${it.description}" >
   	  
 	<input type="hidden" name="name" value="${it.name}"/>
-	<input type="hidden" name="SelectedVarsList" value="${it.SelectedVarsStr}" id="SelectedVarsList_id"/>
+	<input type="hidden" name="SelectedVarsStr" value="${it.SelectedVarsStr}" id="SelectedVarsStr_id"/>
         <f:entry title="Name" field="name" >
                 <f:textbox value="${it.name}" disabled="true"/>
         </f:entry>
@@ -63,8 +63,8 @@ function rowSelected(VarsList){
 		}
 		//SetSelectedVars();
         }
-	var SelectedVarsList_idEle = document.getElementById("SelectedVarsList_id");
-	SelectedVarsList_idEle.value = selected_array.join(";");
+	var SelectedVarsStr_idEle = document.getElementById("SelectedVarsStr_id");
+	SelectedVarsStr_idEle.value = selected_array.join(";");
 	a.setSelectedVars(selected_array.join(";"));
 }
 ]]>

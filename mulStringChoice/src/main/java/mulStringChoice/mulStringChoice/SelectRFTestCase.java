@@ -69,13 +69,6 @@ public class SelectRFTestCase extends ParameterDefinition {
 		}
 			
 		
-		public ListBoxModel doFillVarsListItems(@QueryParameter String VarsString) {
-                        LOGGER.warning("in doFillVarsListItems; "+VarsString);
-			ListBoxModel m = new ListBoxModel();
-			for (String s : VarsString.split(";"))
-				m.add(s,s);
-			return m;
-		}
 
 		public DescriptorImpl() {
 			LOGGER.warning("in DescriptorImpl");
@@ -101,7 +94,7 @@ public class SelectRFTestCase extends ParameterDefinition {
 							formData.getString("name"),
 							null,//formData.getString("description"),
 							formData.getString("VarsString"),
-							formData.getJSONArray("VarsList")
+							formData.getString("SelectedVarsStr")
 							);
         	}
 		
@@ -112,8 +105,7 @@ public class SelectRFTestCase extends ParameterDefinition {
 
 	private String VarsString;
 	private List<String> VarsList=null;
-        private JSONArray SelectedVarsJA;
-	
+	private String SelectedVarsStr;	
 	
 	
 	/**
@@ -123,12 +115,13 @@ public class SelectRFTestCase extends ParameterDefinition {
 	 * @param VarsJA
 	 */
 	@DataBoundConstructor
-	public SelectRFTestCase(String name, String description, String VarsString, JSONArray VarsJA) {
+	public SelectRFTestCase(String name, String description, String VarsString, String SelectedVarsStr) {
 
 		super(name, description);
 		LOGGER.warning("@@@@@@@@@in SelectRFTestCase");
 		this.VarsString = VarsString;
-		this.SelectedVarsJA = VarsJA;
+		this.SelectedVarsStr = SelectedVarsStr;
+		LOGGER.warning("VarsString " + VarsString + " SelectedVarsStr " + SelectedVarsStr);
 	}
 
 	
@@ -148,7 +141,7 @@ public class SelectRFTestCase extends ParameterDefinition {
 
 		LOGGER.warning("in createValue(StaplerRequest request, JSONObject jO)");
 		LOGGER.warning("jO:"+jO.toString()); 
-		return new FileSystemListParameterValue(jO.get("name").toString(), jO.get("SelectedVarsList").toString());
+		return new FileSystemListParameterValue(jO.get("name").toString(), jO.get("SelectedVarsStr").toString());
 	}
 
 
@@ -172,6 +165,7 @@ public class SelectRFTestCase extends ParameterDefinition {
 	}
 
 	public String getSelectedVarsStr() {
+		/*
 		String tmp = null;
 		for (int idx=0; idx < SelectedVarsJA.size(); idx ++){
 			if (tmp == null ){
@@ -183,22 +177,34 @@ public class SelectRFTestCase extends ParameterDefinition {
 		}
 		LOGGER.warning("in getSelectedVarsList:'"+"'");
 		return tmp;
+		*/
+		return this.SelectedVarsStr;
 	}
 	public List<String> getSelectedVarsList() {
+		/*
                 List<String> tmp = new ArrayList<String>();
                 for (int idx=0; idx < SelectedVarsJA.size(); idx ++){
                         tmp.add(SelectedVarsJA.getString(idx).toString());
                 }
                 LOGGER.warning("in getSelectedVarsList:'"+tmp.toString()+"'");
                 return tmp;
+		*/
+		//SelectedVarsList;
+		List<String> tmp = new ArrayList<String>();
+		for (String s : this.SelectedVarsStr.split(";")){
+                        tmp.add(s);
+                }
+		return tmp;
         }
 
 	@JavaScriptMethod
 	public void setSelectedVars(String SelectedVarsStr){
+		/*
 		LOGGER.warning("in SetSelectedVars:"+SelectedVarsStr+"");
 		SelectedVarsJA.clear();
 		for (String s : SelectedVarsStr.split(";")){
 			SelectedVarsJA.add(s);
-		}
+		}*/
+		this.SelectedVarsStr = SelectedVarsStr;
 	}
 }
